@@ -1,0 +1,30 @@
+OASISFormat: 0.4
+Name:        sundials-ocaml
+Version:     0.1
+Synopsis:    OCaml bindings to the IDA solver from the SUNDIALS package
+Authors:     Christoph Höger <christoph.hoeger@tu-berlin.de>
+License:     BSD-3-clause
+Plugins:     META (0.4), StdFiles (0.4), DevFiles (0.4)
+
+# for corebuild compatibility:
+AlphaFeatures:           ocamlbuild_more_args
+XOCamlbuildExtraArgs:    -j 4 -verbose 0 -tag thread -tag debug -tag annot -tag bin_annot -tag short_paths -classic-display 
+
+Library sundials_ml
+  Path:       src
+  CompiledObject: best
+  BuildTools: ocamlbuild
+  Modules:    Ida, Ida_utils
+  BuildDepends: bigarray, batteries
+  CSources:   sundials_ml_ida.c
+  CCOpt:      -I$path -std=c11
+  CCLib:      -lsundials_ida -lsundials_nvecserial
+
+Executable ida_demo_heat2d_band
+  Path:       src
+  CompiledObject: best
+  BuildTools: ocamlbuild
+  BuildDepends: sundials_ml
+  MainIs:     ida_demo_heat2d_band.ml
+
+  
